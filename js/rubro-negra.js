@@ -1,3 +1,4 @@
+// Responsável: Arthur Angelim
 /*
  * ÁRVORE RUBRO-NEGRA (Red-Black Tree) — implementada do zero, com nós encadeados.
  *
