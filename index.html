@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Árvores Balanceadas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Rubro-Negra, 2-3-4 e k-D passo a passo, com uma aplicação prática de estoque de feira.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-interno">
+    <a class="marca" href="#inicio">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+        <line x1="13" y1="6" x2="6" y2="19" stroke="currentColor" stroke-width="1.6"/>
+        <line x1="13" y1="6" x2="20" y2="19" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="13" cy="6" r="4.5" fill="var(--no-preto)" stroke="var(--no-preto-borda)"/>
+        <circle cx="6" cy="19" r="4.5" fill="var(--no-vermelho)"/>
+        <circle cx="20" cy="19" r="4.5" fill="var(--no-vermelho)"/>
+      </svg>
+      Árvores Balanceadas
+    </a>
+    <nav class="abas" aria-label="Seções">
+      <a href="#inicio">Início</a>
+      <a href="#rubro-negra">Rubro-Negra</a>
+      <a href="#arvore-234">2-3-4</a>
+      <a href="#comparar">RN × 2-3-4</a>
+      <a href="#kd">k-D</a>
+      <a href="#feira">Feira (aplicação)</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ============================================================ INÍCIO -->
+  <section class="vista" id="v-inicio" data-vista="inicio">
+    <div class="capa">
+      <div>
+        <p class="rotulo-pequeno">Estrutura de Dados · trabalho em equipe</p>
+        <h1>Árvores que se <span class="vermelho">equilibram</span> sozinhas</h1>
+        <p class="resumo">Três árvores implementadas do zero em JavaScript, sem bibliotecas de árvores, com cada rotação, divisão e fusão mostrada passo a passo. No fim, as três trabalham juntas no estoque de uma feira livre.</p>
+        <p class="equipe"><strong>Equipe:</strong> Arthur Angelim · Felipe Alho · Artur Lobato</p>
+        <div class="acoes">
+          <a class="btn primario" href="#rubro-negra">Começar pela Rubro-Negra</a>
+          <a class="btn" href="#feira">Ver a aplicação</a>
+        </div>
+      </div>
+      <svg class="palco" id="capa-arvore" role="img" aria-label="Árvore rubro-negra com 25 chaves"></svg>
+    </div>
+
+    <div class="cartoes">
+      <a class="cartao" href="#rubro-negra">
+        <span class="tecnica">recolorir + rotacionar</span>
+        <h3>Rubro-Negra</h3>
+        <p>Binária. Cores nos nós limitam a altura a 2·log₂(n+1).</p>
+      </a>
+      <a class="cartao" href="#arvore-234">
+        <span class="tecnica">dividir · emprestar · fundir</span>
+        <h3>2-3-4</h3>
+        <p>Até 3 chaves por nó. Todas as folhas no mesmo nível; cresce pela raiz.</p>
+      </a>
+      <a class="cartao" href="#comparar">
+        <span class="tecnica">mesmas chaves, duas formas</span>
+        <h3>RN × 2-3-4</h3>
+        <p>Um nó preto com seus filhos vermelhos é um nó da 2-3-4.</p>
+      </a>
+      <a class="cartao" href="#kd">
+        <span class="tecnica">mediana na construção</span>
+        <h3>k-D</h3>
+        <p>Cada nível corta o plano por um eixo. Busca o ponto mais próximo com podas.</p>
+      </a>
+      <a class="cartao" href="#feira">
+        <span class="tecnica">as três juntas</span>
+        <h3>Feira (aplicação)</h3>
+        <p>Estoque por código, consulta por faixa de preço e banca mais próxima.</p>
+      </a>
+    </div>
+
+    <div class="secao-inicio">
+      <h2>Como cada árvore se balanceia</h2>
+      <div class="tabela-rolagem">
+        <table>
+          <thead>
+            <tr><th></th><th>Rubro-Negra</th><th>2-3-4</th><th>k-D</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Tipo</td><td>Binária</td><td>Não-binária (1 a 3 chaves por nó)</td><td>Binária, multidimensional</td></tr>
+            <tr><td>Garantia</td><td>Altura ≤ 2·log₂(n+1)</td><td>Todas as folhas no mesmo nível</td><td>Balanceada na construção</td></tr>
+            <tr><td>Ferramentas</td><td>Recoloração e rotação</td><td>Divisão, empréstimo e fusão</td><td>Mediana (sem rotações)</td></tr>
+            <tr><td>Cresce e encolhe</td><td>Pelas folhas</td><td>Pela raiz</td><td>Pelas folhas</td></tr>
+            <tr><td>Busca, inserção, remoção</td><td class="num">O(log n)</td><td class="num">O(log n)</td><td>O(log n) em média</td></tr>
+            <tr><td>Onde é usada</td><td>TreeMap (Java), std::map (C++), agendador do Linux</td><td>Base da árvore B: bancos de dados e sistemas de arquivos</td><td>Mapas, jogos, k-NN em aprendizado de máquina</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="secao-inicio">
+      <h2>Elementos repetidos (regra da equipe)</h2>
+      <div class="tabela-rolagem">
+        <table>
+          <thead>
+            <tr><th>Árvore</th><th>Método</th><th>Inserir repetido</th><th>Remover repetido</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Rubro-Negra</td><td>Contador no nó (chaves únicas). Na feira, soma o estoque.</td><td>Não cria nó e não rebalanceia: contador + 1</td><td>Contador − 1; o nó só sai, com rebalanceamento, quando chega a 0</td></tr>
+            <tr><td>2-3-4</td><td>Balde (lista) de itens por chave. Na feira, a chave é o preço.</td><td>O item entra no balde, sem divisões</td><td>Sai do balde; a chave só sai quando o balde esvazia</td></tr>
+            <tr><td>k-D</td><td>Coordenada igual vai para a direita (maior ou igual)</td><td>Vira outro nó na subárvore direita</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================= RUBRO-NEGRA -->
+  <section class="vista" id="v-rubro-negra" data-vista="rubro-negra" hidden></section>
+
+  <!-- ============================================================= 2-3-4 -->
+  <section class="vista" id="v-arvore-234" data-vista="arvore-234" hidden></section>
+
+  <!-- ========================================================== COMPARAR -->
+  <section class="vista" id="v-comparar" data-vista="comparar" hidden>
+    <div class="cabecalho-vista">
+      <div>
+        <h2>Rubro-Negra × 2-3-4</h2>
+        <p>Uma rubro-negra é uma 2-3-4 escrita como árvore binária: cada nó preto, junto com seus filhos vermelhos, forma um nó da 2-3-4. Rotação e recoloração de um lado equivalem a divisão e fusão do outro.</p>
+      </div>
+    </div>
+    <form class="ferramentas" id="cmp-form">
+      <div class="grupo">
+        <label class="rotulo-pequeno" for="cmp-valores">Valores</label>
+        <input class="campo" id="cmp-valores" inputmode="numeric" autocomplete="off" placeholder="ex.: 10 20 30" size="16">
+        <button class="btn primario" type="submit">Inserir nas duas</button>
+        <button class="btn" type="button" id="cmp-remover">Remover das duas</button>
+      </div>
+      <div class="grupo">
+        <button class="btn sutil" type="button" id="cmp-padrao">Carregar 25 valores</button>
+        <button class="btn sutil" type="button" id="cmp-limpar">Limpar</button>
+      </div>
+    </form>
+    <div class="legenda" id="cmp-legenda" aria-live="polite"><span class="chip-op"></span><span class="texto"></span></div>
+    <div class="coluna">
+      <div class="titulo-palco"><h3>Rubro-Negra (binária)</h3><dl class="estatisticas" id="cmp-info-rn"></dl></div>
+      <svg class="palco baixo" id="cmp-rn" role="img" aria-label="Árvore rubro-negra"></svg>
+      <div class="titulo-palco"><h3>2-3-4 (não-binária)</h3><dl class="estatisticas" id="cmp-info-234"></dl></div>
+      <svg class="palco baixo" id="cmp-234" role="img" aria-label="Árvore 2-3-4"></svg>
+    </div>
+  </section>
+
+  <!-- =============================================================== k-D -->
+  <section class="vista" id="v-kd" data-vista="kd" hidden>
+    <div class="cabecalho-vista">
+      <div>
+        <h2>Árvore k-D</h2>
+        <p>Cada nível compara um eixo diferente (x, depois y, depois x…) e corta o plano com uma reta. Clique no plano para buscar o ponto mais próximo ou para inserir um ponto.</p>
+      </div>
+    </div>
+    <div class="ferramentas">
+      <div class="grupo">
+        <button class="btn sutil" type="button" id="kd-exemplo">Exemplo (7 pontos)</button>
+        <button class="btn sutil" type="button" id="kd-bancas">Bancas da feira</button>
+        <button class="btn sutil" type="button" id="kd-aleatorios">+5 aleatórios</button>
+        <button class="btn" type="button" id="kd-reconstruir">Reconstruir pela mediana</button>
+        <button class="btn sutil" type="button" id="kd-limpar">Limpar</button>
+      </div>
+      <div class="grupo">
+        <span class="rotulo-pequeno">Clique no plano para</span>
+        <div class="segmentado" role="radiogroup" aria-label="Ação do clique">
+          <label><input type="radio" name="kd-modo" id="kd-modo-buscar" value="buscar" checked>buscar o mais próximo</label>
+          <label><input type="radio" name="kd-modo" id="kd-modo-inserir" value="inserir">inserir ponto</label>
+        </div>
+        <label class="alternar"><input type="checkbox" id="kd-animar" checked>Animar</label>
+      </div>
+    </div>
+    <div class="legenda" id="kd-legenda" aria-live="polite"><span class="chip-op"></span><span class="texto"></span></div>
+    <div class="area tres" id="kd-area">
+      <div class="coluna">
+        <div class="titulo-palco"><h3>Plano</h3>
+          <div class="legenda-cores"><span><i class="bolinha eixo-x"></i>corte em x</span><span><i class="bolinha eixo-y"></i>corte em y</span></div></div>
+        <svg class="palco plano" id="kd-plano" role="img" aria-label="Plano dividido pela árvore k-D"></svg>
+      </div>
+      <div class="coluna">
+        <div class="titulo-palco"><h3>Árvore</h3>
+          <div class="legenda-cores"><span><i class="bolinha melhor"></i>melhor</span><span><i class="bolinha podado"></i>podado</span></div></div>
+        <svg class="palco" id="kd-arvore" role="img" aria-label="Árvore k-D"></svg>
+        <div class="reprodutor" data-reprodutor>
+          <div class="grupo">
+            <button class="btn" type="button" data-player="inicio" title="Primeiro passo">⏮</button>
+            <button class="btn" type="button" data-player="voltar">◀ Voltar</button>
+            <button class="btn primario" type="button" data-player="tocar">▶ Reproduzir</button>
+            <button class="btn" type="button" data-player="avancar">Avançar ▶</button>
+            <button class="btn" type="button" data-player="fim" title="Último passo">⏭</button>
+          </div>
+          <span class="contador" data-contador></span>
+          <label class="velocidade">lento <input type="range" id="kd-velocidade" min="300" max="2600" value="1500" data-velocidade aria-label="Velocidade"> rápido</label>
+        </div>
+        <dl class="estatisticas" id="kd-info"></dl>
+      </div>
+      <aside class="painel">
+        <section>
+          <h3>Passos</h3>
+          <ol class="passos" data-passos></ol>
+        </section>
+        <section>
+          <h3>Conceitos</h3>
+          <div class="conceitos">
+            <ul>
+              <li data-caso="eixos"><b>Rodízio de eixos.</b> Nível 0 compara x (reta vertical), nível 1 compara y (reta horizontal), e assim por diante. Menor vai para a esquerda; maior ou igual, para a direita.</li>
+              <li data-caso="mediana"><b>Balanceamento pela mediana.</b> Na construção, cada nível escolhe o ponto do meio daquele eixo, e cada lado fica com metade dos pontos. A k-D não usa rotações, que quebrariam o rodízio.</li>
+              <li data-caso="inserir"><b>Inserção.</b> Desce como numa BST comparando o eixo do nível. Muitas inserções podem desbalancear; aí se reconstrói.</li>
+              <li data-caso="visita"><b>Ponto mais próximo.</b> Desce primeiro pelo lado do cliente e guarda o melhor ponto encontrado.</li>
+              <li data-caso="poda"><b>Poda.</b> Na volta, só visita o outro lado de uma reta se o círculo do melhor atual cruzar essa reta. Os lados podados ficam em cinza.</li>
+            </ul>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============================================================= FEIRA -->
+  <section class="vista" id="v-feira" data-vista="feira" hidden>
+    <div class="cabecalho-vista">
+      <div>
+        <h2>Estoque da feira</h2>
+        <p>A aplicação prática usa as três árvores: a Rubro-Negra guarda os produtos por código, a 2-3-4 indexa por preço e a k-D encontra a banca mais próxima do cliente.</p>
+      </div>
+    </div>
+    <div class="legenda" id="feira-legenda" aria-live="polite"><span class="chip-op"></span><span class="texto"></span></div>
+    <div class="feira">
+      <div class="coluna">
+        <form class="caixa-bloco" id="feira-form">
+          <h3>Produto <span class="rotulo-pequeno">· índice por código (Rubro-Negra)</span></h3>
+          <div class="formulario">
+            <label>Código<input class="campo" id="f-codigo" inputmode="numeric" autocomplete="off"></label>
+            <label class="largo">Nome<input class="campo" id="f-nome" autocomplete="off"></label>
+            <label>Preço (R$)<input class="campo" id="f-preco" inputmode="decimal" autocomplete="off"></label>
+            <label>Qtd<input class="campo" id="f-qtd" inputmode="numeric" autocomplete="off"></label>
+            <label>Banca<input class="campo" id="f-banca" autocomplete="off" placeholder="B03"></label>
+          </div>
+          <div class="grupo">
+            <button class="btn primario" type="submit">Cadastrar</button>
+            <button class="btn" type="button" id="f-buscar">Buscar código</button>
+            <button class="btn" type="button" id="f-vender">Vender Qtd</button>
+            <button class="btn" type="button" id="f-remover">Remover</button>
+          </div>
+        </form>
+        <div class="caixa-bloco">
+          <div class="titulo-palco">
+            <h3 id="feira-titulo-tabela">Produtos</h3>
+            <form class="grupo" id="feira-faixa">
+              <label class="rotulo-pequeno" for="f-min">R$</label>
+              <input class="campo" id="f-min" value="8" size="4" inputmode="decimal">
+              <label class="rotulo-pequeno" for="f-max">até</label>
+              <input class="campo" id="f-max" value="12" size="4" inputmode="decimal">
+              <button class="btn" type="submit">Filtrar (2-3-4)</button>
+              <button class="btn sutil" type="button" id="f-todos">Todos</button>
+            </form>
+          </div>
+          <div class="tabela-produtos tabela-rolagem">
+            <table>
+              <thead><tr><th>Código</th><th>Produto</th><th>Preço</th><th>Estoque</th><th>Banca</th></tr></thead>
+              <tbody id="feira-tabela"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="coluna">
+        <div class="caixa-bloco">
+          <div class="titulo-palco"><h3>Mapa da feira</h3><span class="rotulo-pequeno">clique: banca mais próxima (k-D)</span></div>
+          <svg class="palco plano baixo" id="feira-mapa" role="img" aria-label="Mapa das bancas"></svg>
+        </div>
+        <div class="caixa-bloco">
+          <h3>Passos internos da última operação</h3>
+          <ul class="log" id="feira-log"></ul>
+        </div>
+      </div>
+    </div>
+    <div class="indices">
+      <div class="caixa-bloco">
+        <div class="titulo-palco"><h3>Índice por código · Rubro-Negra</h3><dl class="estatisticas" id="feira-info-rn"></dl></div>
+        <svg class="palco baixo" id="feira-rn" role="img" aria-label="Rubro-negra dos códigos"></svg>
+      </div>
+      <div class="caixa-bloco">
+        <div class="titulo-palco"><h3>Índice por preço (R$) · 2-3-4</h3><dl class="estatisticas" id="feira-info-234"></dl></div>
+        <svg class="palco baixo" id="feira-234" role="img" aria-label="2-3-4 dos preços"></svg>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="js/rubro-negra.js"></script>
+<script src="js/arvore-234.js"></script>
+<script src="js/arvore-kd.js"></script>
+<script src="js/feira.js"></script>
+<script src="js/desenho.js"></script>
+<script src="js/interface.js"></script>
+</body>
+</html>
