@@ -7,7 +7,7 @@ prática: o **estoque de uma feira livre**.
 
 > Equipe: Arthur Angelim, Felipe Alho e Artur Lobato · Turma CC4MA
 >
-> Site publicado: `https://SEU-USUARIO.github.io/arvores-balanceadas/` (veja abaixo como publicar)
+> Site publicado: `https://gegelim.github.io/arvores-balanceadas/` (veja abaixo como publicar)
 
 ---
 
@@ -21,7 +21,7 @@ O projeto é só HTML, CSS e JavaScript puro. **Não precisa instalar nada.**
 
 **Opção 2: pelo terminal**
 ```bash
-git clone https://github.com/SEU-USUARIO/arvores-balanceadas.git
+git clone https://github.com/gegelim/arvores-balanceadas.git
 cd arvores-balanceadas
 # abra o index.html no navegador, ou sirva a pasta:
 python -m http.server 8000      # depois acesse http://localhost:8000
@@ -30,7 +30,7 @@ python -m http.server 8000      # depois acesse http://localhost:8000
 **Opção 3: GitHub Pages (link público para a apresentação)**
 1. No repositório, vá em **Settings → Pages**.
 2. Em *Source*, escolha **Deploy from a branch**, branch **main**, pasta **/ (root)**, e salve.
-3. Em 1 ou 2 minutos o site fica em `https://SEU-USUARIO.github.io/arvores-balanceadas/`.
+3. Em 1 ou 2 minutos o site fica em `https://gegelim.github.io/arvores-balanceadas/`.
 
 **Testes automáticos** (opcional, precisa do [Node.js](https://nodejs.org)):
 ```bash
