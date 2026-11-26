@@ -1,3 +1,4 @@
+// Responsável: Artur Lobato
 /*
  * ÁRVORE k-D (k-dimensional) — implementação didática para k = 2.
  *
