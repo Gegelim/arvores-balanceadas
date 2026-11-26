@@ -1,3 +1,4 @@
+// Responsável: Artur Lobato.
 /*
  * APLICAÇÃO PRÁTICA: estoque de uma feira livre.
  *
